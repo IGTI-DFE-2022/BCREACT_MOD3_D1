@@ -4,9 +4,11 @@ import React, { ChangeEvent } from "react";
 interface IAppControlsProps {
   onYearChange?: (year: number) => void;
   onMonthChange?: (month: number) => void;
+  onTypeChange?: (type: "despesa" | "categoria") => void;
   years: number[];
   year: number;
   month: number;
+  viewType: "despesa" | "categoria";
 }
 
 export default function AppControls(props: IAppControlsProps) {
@@ -16,6 +18,12 @@ export default function AppControls(props: IAppControlsProps) {
       months.push(i);
     }
     return months;
+  }
+
+  function handleTypeChange(evt: any) {
+    if (props.onTypeChange) {
+      props.onTypeChange(evt.target.value);
+    }
   }
 
   function handleYearChange(evt: any) {
@@ -36,6 +44,22 @@ export default function AppControls(props: IAppControlsProps) {
 
   return (
     <div>
+      {/* VIEW TYPE */}
+      <FormControl>
+        <InputLabel htmlFor="input-ano">Tipo</InputLabel>
+        <Select
+          value={props.viewType}
+          onChange={handleTypeChange}
+          inputProps={{
+            name: "ano",
+            id: "input-ano",
+          }}
+        >
+          <MenuItem value="despesa">Despesas</MenuItem>
+          <MenuItem value="categoria">Categorias</MenuItem>
+        </Select>
+      </FormControl>
+
       {/* YEAR */}
       <FormControl>
         <InputLabel htmlFor="input-ano">Ano</InputLabel>

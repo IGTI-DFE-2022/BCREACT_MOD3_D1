@@ -10,6 +10,8 @@ import Stats from "./components/Stats";
 import { Box, Button } from "@material-ui/core";
 import { login, logout } from "./services/auth.service";
 import { useNavigate } from "react-router-dom";
+import CategoryTable from "./components/CategoryTable";
+import { summarizeByCategory } from "./services/despesa.service";
 
 export interface Despesa {
   id: number;
@@ -25,6 +27,7 @@ function App() {
   const [year, setYear] = useState(0);
   const [month, setMonth] = useState(1);
   const [despesas, setDespesas] = useState<Despesa[]>([]);
+  const [viewType, setviewType] = useState<"despesa" | "categoria">("despesa");
   let navigate = useNavigate();
 
   function handleYearChange(year: number) {
@@ -33,6 +36,10 @@ function App() {
 
   function handleMonthChange(month: number) {
     setMonth(month);
+  }
+
+  function handleTypeChange(viewType: "despesa" | "categoria") {
+    setviewType(viewType);
   }
 
   useEffect(() => {
@@ -66,15 +73,20 @@ function App() {
           years={years}
           year={year}
           month={month}
+          viewType={viewType}
           onMonthChange={handleMonthChange}
           onYearChange={handleYearChange}
+          onTypeChange={handleTypeChange}
         />
         <Stats despesas={despesas} />
         <Button variant="outlined" onClick={handleLogout}>
           Logout
         </Button>
       </Box>
-      <DespesasTable rows={despesas} />
+      {viewType === "despesa" && <DespesasTable rows={despesas} />}
+      {viewType === "categoria" && (
+        <CategoryTable rows={summarizeByCategory(despesas)} />
+      )}
     </div>
   );
 }
