@@ -7,8 +7,9 @@ import AppControls from "./components/AppControls";
 import DespesasTable from "./components/DespesasTable";
 import { useEffect, useState } from "react";
 import Stats from "./components/Stats";
-import { Box } from "@material-ui/core";
-import { login } from "./services/auth.service";
+import { Box, Button } from "@material-ui/core";
+import { login, logout } from "./services/auth.service";
+import { useNavigate } from "react-router-dom";
 
 export interface Despesa {
   id: number;
@@ -24,6 +25,7 @@ function App() {
   const [year, setYear] = useState(0);
   const [month, setMonth] = useState(1);
   const [despesas, setDespesas] = useState<Despesa[]>([]);
+  let navigate = useNavigate();
 
   function handleYearChange(year: number) {
     setYear(year);
@@ -51,6 +53,12 @@ function App() {
     }
   }, [month, year]);
 
+  function handleLogout() {
+    logout().then(() => {
+      navigate("/login");
+    });
+  }
+
   return (
     <div className="App">
       <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -62,6 +70,9 @@ function App() {
           onYearChange={handleYearChange}
         />
         <Stats despesas={despesas} />
+        <Button variant="outlined" onClick={handleLogout}>
+          Logout
+        </Button>
       </Box>
       <DespesasTable rows={despesas} />
     </div>

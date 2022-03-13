@@ -11,3 +11,14 @@ export function login(user: string, password: string) {
     body: JSON.stringify({ email: user, senha: password }),
   });
 }
+
+export function logout() {
+  return fetch(`${BASE_URL}/sessao/finalizar `, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  });
+}
