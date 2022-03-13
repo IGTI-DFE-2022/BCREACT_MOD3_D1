@@ -4,7 +4,8 @@ const BASE_URL = "http://localhost:3001";
 
 export function fetchDespesas(year: number, month: number): Promise<Despesa[]> {
   return fetch(
-    `${BASE_URL}/despesas?mes=${year}-${month.toString().padStart(2, "0")}`
+    `${BASE_URL}/despesas?mes=${year}-${month.toString().padStart(2, "0")}`,
+    { credentials: "include" }
   )
     .then((data) => data.json())
     .then((despesas: Despesa[]) => {
@@ -13,7 +14,7 @@ export function fetchDespesas(year: number, month: number): Promise<Despesa[]> {
 }
 
 export function fetchAllYearWithExpenses() {
-  return fetch(`${BASE_URL}/despesas`)
+  return fetch(`${BASE_URL}/despesas`, { credentials: "include" })
     .then((data) => data.json())
     .then((expenses: Despesa[]) => {
       let years = new Set<number>();

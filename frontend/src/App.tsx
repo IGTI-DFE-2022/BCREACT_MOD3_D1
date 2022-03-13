@@ -8,6 +8,7 @@ import DespesasTable from "./components/DespesasTable";
 import { useEffect, useState } from "react";
 import Stats from "./components/Stats";
 import { Box } from "@material-ui/core";
+import { login } from "./services/auth.service";
 
 export interface Despesa {
   id: number;
@@ -37,6 +38,11 @@ function App() {
       setYears(d);
       // setYear(years[years.length - 1]);
     });
+
+    // login("usuario@email.com", "1234").then((result) => {
+    //   console.log("login: ");
+    //   console.log(result);
+    // });
   }, []);
 
   useEffect(() => {
